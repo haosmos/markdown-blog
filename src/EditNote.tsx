@@ -1,22 +1,28 @@
 import NoteForm from './NoteForm';
 import { NoteData, Tag } from './App';
+import { useNote } from './NoteLayout';
 
-type NewNoteProps = {
-  onSubmit: (data: NoteData) => void;
+type EditNoteProps = {
+  onSubmit: (id: string, data: NoteData) => void;
   onAddTag: (tag: Tag) => void;
   availableTags: Tag[]
 };
 
-function NewNote({
+function EditNote({
   onSubmit,
   onAddTag,
   availableTags
-}: NewNoteProps): JSX.Element {
+}: EditNoteProps): JSX.Element {
+  const note = useNote();
+  
   return (
     <>
-      <h1 className="mb-4">New Note</h1>
+      <h1 className="mb-4">Edit Note</h1>
       <NoteForm
-        onSubmit={onSubmit}
+        title={note.title}
+        markdown={note.markdown}
+        tags={note.tags}
+        onSubmit={data => onSubmit(note.id, data)}
         onAddTag={onAddTag}
         availableTags={availableTags}
       />
@@ -24,4 +30,4 @@ function NewNote({
   );
 }
 
-export default NewNote;
+export default EditNote;
